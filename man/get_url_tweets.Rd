@@ -9,10 +9,12 @@ get_url_tweets(
   start_tweets,
   end_tweets,
   bearer_token,
+  n = 100,
   file = NULL,
   data_path = NULL,
   bind_tweets = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -24,6 +26,8 @@ get_url_tweets(
 
 \item{bearer_token}{string, bearer token}
 
+\item{n}{integer, amount of tweets to be fetched}
+
 \item{file}{string, name of the resulting RDS file}
 
 \item{data_path}{string, if supplied, fetched data can be saved to the designated path as jsons}
@@ -31,6 +35,8 @@ get_url_tweets(
 \item{bind_tweets}{If \code{TRUE}, tweets captured are bound into a data.frame for assignment}
 
 \item{verbose}{If \code{FALSE}, query progress messages are suppressed}
+
+\item{...}{arguments will be passed to \code{build_query()} function. See \code{?build_query()} for further information.}
 }
 \value{
 a data.frame
@@ -38,13 +44,13 @@ a data.frame
 \description{
 This function collects tweets containing a given url between specified date ranges.
 Tweet-level data is stored in a data/ path as a series of JSONs beginning "data_"; User-level data is stored as a series of
-JSONs beginning "users_". If a filename is supplied, this function will save the result as a RDS file, otherwise,
+JSONs beginning "users_". If a filename is supplied, this function will save the result as a RDS file, otherwise
 it will return the results as a dataframe.
 }
 \examples{
 \dontrun{
 bearer_token <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-tweets <- get_url_tweets("https://www.theguardian.com/environment/2020/jan/07/save-the-planet-guide-fighting-climate-crisis-veganism-flying-earth-emergency-action", 
+tweets <- get_url_tweets("https://www.theguardian.com/", 
 "2020-01-01T00:00:00Z", "2020-04-04T00:00:00Z", bearer_token, data_path = "data/")
 }
 }

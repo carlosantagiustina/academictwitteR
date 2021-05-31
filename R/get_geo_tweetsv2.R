@@ -1,12 +1,12 @@
 #' Get tweets for query containing geo information
 #'
-#' This function loops collects tweets containing strings or 
+#' This function collects tweets containing strings or 
 #' hashtags between specified date ranges that also contain Tweet-specific geolocation data provided by the 
 #' Twitter user. This can be either a location in the form of a Twitter place, with the corresponding display 
 #' name, geo polygon, and other fields, or in rare cases, a geo lat-long coordinate. Note: Operators matching 
 #' on place (Tweet geo) will only include matches from original tweets. Tweet-level data is stored in a data/ 
 #' path as a series of JSONs beginning "data_"; User-level data is stored as a series of JSONs beginning "users_". 
-#' If a filename is supplied, this function will save the result as a RDS file, otherwise, it will return the results as a dataframe.
+#' If a filename is supplied, this function will save the result as a RDS file, otherwise it will return the results as a dataframe.
 #'
 #' @param query string or character vector, search query or queries
 #' @param start_tweets string, starting date
@@ -17,13 +17,14 @@
 #' @param bind_tweets If `TRUE`, tweets captured are bound into a data.frame for assignment
 #' @param verbose If `FALSE`, query progress messages are suppressed
 #' 
-#' @return
+#' @return a data.frame
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' bearer_token <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-#' get_geo_tweets("protest", "2020-01-01T00:00:00Z", "2020-01-05T00:00:00Z", bearer_token, data_path = "data/")
+#' get_geo_tweets("protest", "2020-01-01T00:00:00Z", "2020-01-05T00:00:00Z", 
+#'                bearer_token, data_path = "data/")
 #' }
 get_geo_tweets <-
   function(query,
@@ -92,7 +93,7 @@ get_geo_tweets <-
       df <-
         get_tweets(
           q = paste0('has:geo ', query),
-          n = 500,
+          page_n = 500,
           start_time = start_tweets,
           end_time = end_tweets,
           token = bearer_token,

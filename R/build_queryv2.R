@@ -3,14 +3,16 @@
 #' Build tweet query according to targeted parameters, can then be input to main \code{\link{get_all_tweets}} function as query parameter.
 #'
 #' @param query string or character vector, search query or queries
-#' @param is_retweet If `TRUE`, only retweets will be returned; if `FALSE` retweets will not be returned
+#' @param exclude string or character vector, tweets containing the keyword(s) will be excluded
+#' @param is_retweet If `TRUE`, only retweets will be returned; if `FALSE`, retweets will not be returned, only tweets will be returned; if `NULL`, both retweets and tweets will be returned.
 #' @param is_reply If `TRUE`, only reply tweets will be returned
 #' @param is_quote If `TRUE`, only quote tweets will be returned
+#' @param is_verified If `TRUE`, only tweets whose authors are verified by Twitter will be returned
 #' @param place string, name of place e.g. "London"
 #' @param country string, name of country as ISO alpha-2 code e.g. "GB"
 #' @param point_radius numeric, a vector of two point coordinates latitude, longitude, and point radius distance (in miles)
 #' @param bbox numeric, a vector of four bounding box coordinates from west longitude to north latitude
-#' @param geo_query If `TRUE` user will be propmted to enter relevant information for bounding box or point radius geo buffers
+#' @param geo_query If `TRUE` user will be prompted to enter relevant information for bounding box or point radius geo buffers
 #' @param remove_promoted If `TRUE`, tweets created for promotion only on ads.twitter.com are removed
 #' @param has_hashtags If `TRUE`, only tweets containing hashtags will be returned
 #' @param has_cashtags If `TRUE`, only tweets containing cashtags will be returned
@@ -22,17 +24,24 @@
 #' @param has_geo If `TRUE`, only tweets containing Tweet-specific geolocation data provided by the Twitter user will be returned
 #' @param lang string, a single BCP 47 language identifier e.g. "fr"
 #'
-#' @return
+#' @return a query string
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' query <- build_query("happy", is_retweet = FALSE, point_radius = TRUE, place = "new york", country = "US")
+#' query <- build_query("happy", is_retweet = FALSE, 
+#'                      point_radius = TRUE, place = "new york", 
+#'                      country = "US")
 #' }
-build_query <- function(query, 
+#' 
+#' @importFrom utils menu
+#' 
+build_query <- function(query,
+                        exclude = NULL,
                         is_retweet = NULL, 
                         is_reply = FALSE, 
                         is_quote = FALSE,
+                        is_verified = FALSE,
                         place = NULL, 
                         country = NULL, 
                         point_radius = NULL,
@@ -50,7 +59,11 @@ build_query <- function(query,
                         lang= NULL) {
   
   if(isTRUE(length(query) >1)) {
-    query <- paste(query, collapse = " OR ")
+    query <- paste("(",paste(query, collapse = " OR "),")", sep = "")
+  }
+  
+  if(!is.null(exclude)) {
+    query <- paste(query, paste("-", exclude, sep = "", collapse = " "))
   }
   
   if (isTRUE(is_retweet) & isTRUE(is_reply)) {
@@ -69,7 +82,7 @@ build_query <- function(query,
     query <- paste(query, "is:retweet")
   }
   
-  if(isFALSE(is_retweet)) {
+  if(!isTRUE(is_retweet)) {
     query <- paste(query, "-is:retweet")
   }
   
@@ -79,6 +92,10 @@ build_query <- function(query,
   
   if(isTRUE(is_quote)) {
     query <- paste(query, "is:quote")
+  }
+  
+  if(isTRUE(is_verified)) {
+    query <- paste(query, "is:verified")
   }
   
   if(!is.null(place)) {

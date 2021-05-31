@@ -6,9 +6,11 @@
 \usage{
 build_query(
   query,
+  exclude = NULL,
   is_retweet = NULL,
   is_reply = FALSE,
   is_quote = FALSE,
+  is_verified = FALSE,
   place = NULL,
   country = NULL,
   point_radius = NULL,
@@ -29,11 +31,15 @@ build_query(
 \arguments{
 \item{query}{string or character vector, search query or queries}
 
-\item{is_retweet}{If \code{TRUE}, only retweets will be returned; if \code{FALSE} retweets will not be returned}
+\item{exclude}{string or character vector, tweets containing the keyword(s) will be excluded}
+
+\item{is_retweet}{If \code{TRUE}, only retweets will be returned; if \code{FALSE}, retweets will not be returned, only tweets will be returned; if \code{NULL}, both retweets and tweets will be returned.}
 
 \item{is_reply}{If \code{TRUE}, only reply tweets will be returned}
 
 \item{is_quote}{If \code{TRUE}, only quote tweets will be returned}
+
+\item{is_verified}{If \code{TRUE}, only tweets whose authors are verified by Twitter will be returned}
 
 \item{place}{string, name of place e.g. "London"}
 
@@ -43,7 +49,7 @@ build_query(
 
 \item{bbox}{numeric, a vector of four bounding box coordinates from west longitude to north latitude}
 
-\item{geo_query}{If \code{TRUE} user will be propmted to enter relevant information for bounding box or point radius geo buffers}
+\item{geo_query}{If \code{TRUE} user will be prompted to enter relevant information for bounding box or point radius geo buffers}
 
 \item{remove_promoted}{If \code{TRUE}, tweets created for promotion only on ads.twitter.com are removed}
 
@@ -66,13 +72,16 @@ build_query(
 \item{lang}{string, a single BCP 47 language identifier e.g. "fr"}
 }
 \value{
-
+a query string
 }
 \description{
 Build tweet query according to targeted parameters, can then be input to main \code{\link{get_all_tweets}} function as query parameter.
 }
 \examples{
 \dontrun{
-query <- build_query("happy", is_retweet = FALSE, point_radius = TRUE, place = "new york", country = "US")
+query <- build_query("happy", is_retweet = FALSE, 
+                     point_radius = TRUE, place = "new york", 
+                     country = "US")
 }
+
 }

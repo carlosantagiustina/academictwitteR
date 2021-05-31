@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_image_tweetsv2.R
 \name{get_image_tweets}
 \alias{get_image_tweets}
-\title{Get tweets for query containing images}
+\title{Get tweets containing images}
 \usage{
 get_image_tweets(
   query,
@@ -12,7 +12,8 @@ get_image_tweets(
   file = NULL,
   data_path = NULL,
   bind_tweets = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -31,20 +32,24 @@ get_image_tweets(
 \item{bind_tweets}{If \code{TRUE}, tweets captured are bound into a data.frame for assignment}
 
 \item{verbose}{If \code{FALSE}, query progress messages are suppressed}
+
+\item{...}{arguments will be passed to \code{build_query()} function. See \code{?build_query()} for further information.}
 }
 \value{
-
+a data.frame
+#' @export
 }
 \description{
 This function collects tweets containing strings or
 hashtags between specified date ranges that also contain (a recognized URL to) an image. Tweet-level data
 is stored in a data/ path as a series of JSONs beginning "data_"; User-level data is stored as a series
 of JSONs beginning "users_". If a filename is supplied, this function will save the result as a RDS file,
-otherwise, it will return the results as a dataframe.
+otherwise it will return the results as a dataframe.
 }
 \examples{
 \dontrun{
 bearer_token <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-get_image_tweets("#BLM", "2020-01-01T00:00:00Z", "2020-01-05T00:00:00Z", bearer_token, data_path = "data/")
+get_image_tweets("#BLM", "2020-01-01T00:00:00Z", "2020-01-05T00:00:00Z", 
+                 bearer_token, data_path = "data/")
 }
 }

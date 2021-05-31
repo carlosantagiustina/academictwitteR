@@ -13,7 +13,8 @@ get_radius_tweets(
   file = NULL,
   data_path = NULL,
   bind_tweets = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ get_radius_tweets(
 \item{bind_tweets}{If \code{TRUE}, tweets captured are bound into a data.frame for assignment}
 
 \item{verbose}{If \code{FALSE}, query progress messages are suppressed}
+
+\item{...}{arguments will be passed to \code{build_query()} function. See \code{?build_query()} for further information.}
 }
 \value{
 a data.frame
@@ -43,12 +46,15 @@ This function collects tweets containing strings or hashtags
 between specified date ranges filtering by radius buffer. Tweet-level data is stored in a data/
 path as a series of JSONs beginning "data_"; User-level data is stored as a series of
 JSONs beginning "users_". If a filename is supplied, this function will
-save the result as a RDS file, otherwise, it will return the results as a data.frame.
+save the result as a RDS file, otherwise it will return the results as a data.frame.
 Note: radius must be less than 25mi.
 }
 \examples{
 \dontrun{
 bearer_token <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-tweets <- get_radius_tweets("happy", radius = c(-0.131969125179604,51.50847878040284, 25), start_tweets = "2021-01-01T00:00:00Z", end_tweets = "2021-01-01T10:00:00Z", bearer_token = bearer_token, data_path = "data/")
+tweets <- get_radius_tweets("happy", radius = c(-0.131969125179604,51.50847878040284, 25), 
+                           start_tweets = "2021-01-01T00:00:00Z", 
+                           end_tweets = "2021-01-01T10:00:00Z", 
+                           bearer_token = bearer_token, data_path = "data/")
 }
 }

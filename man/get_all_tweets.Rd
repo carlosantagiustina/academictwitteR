@@ -9,10 +9,14 @@ get_all_tweets(
   start_tweets,
   end_tweets,
   bearer_token,
+  n = 100,
   file = NULL,
   data_path = NULL,
+  export_query = TRUE,
   bind_tweets = TRUE,
-  verbose = TRUE
+  page_n = 500,
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -24,26 +28,35 @@ get_all_tweets(
 
 \item{bearer_token}{string, bearer token}
 
+\item{n}{integer, amount of tweets to be fetched}
+
 \item{file}{string, name of the resulting RDS file}
 
 \item{data_path}{string, if supplied, fetched data can be saved to the designated path as jsons}
 
+\item{export_query}{If \code{TRUE}, queries are exported to data_path}
+
 \item{bind_tweets}{If \code{TRUE}, tweets captured are bound into a data.frame for assignment}
 
+\item{page_n}{integer, amount of tweets to be returned by per page}
+
 \item{verbose}{If \code{FALSE}, query progress messages are suppressed}
+
+\item{...}{arguments will be passed to \code{build_query()} function. See \code{?build_query()} for further information.}
 }
 \value{
 a data.frame
 }
 \description{
-This function loops collects tweets containing strings or hashtags
+This function collects tweets containing strings or hashtags
 between specified date ranges. Tweet-level data is stored in a data/ path as a series of JSONs beginning "data_";
 User-level data is stored as a series of JSONs beginning "users_". If a filename is supplied, this function will
-save the result as a RDS file, otherwise, it will return the results as a data.frame.
+save the result as a RDS file, otherwise it will return the results as a dataframe.
 }
 \examples{
 \dontrun{
 bearer_token <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-get_all_tweets("BLM", "2020-01-01T00:00:00Z", "2020-01-05T00:00:00Z", bearer_token, data_path = "data/")
+get_all_tweets("BLM", "2020-01-01T00:00:00Z", "2020-01-05T00:00:00Z", 
+               bearer_token, data_path = "data/")
 }
 }

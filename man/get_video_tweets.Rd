@@ -12,7 +12,8 @@ get_video_tweets(
   file = NULL,
   data_path = NULL,
   bind_tweets = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -31,9 +32,11 @@ get_video_tweets(
 \item{bind_tweets}{If \code{TRUE}, tweets captured are bound into a data.frame for assignment}
 
 \item{verbose}{If \code{FALSE}, query progress messages are suppressed}
+
+\item{...}{arguments will be passed to \code{build_query()} function. See \code{?build_query()} for further information.}
 }
 \value{
-
+a data frame
 }
 \description{
 This function collects tweets containing strings or hashtags between specified date ranges
@@ -41,11 +44,12 @@ that also contain native Twitter videos, uploaded directly to Twitter. This will
 on videos created with Periscope, or Tweets with links to other video hosting sites. Tweet-level
 data is stored in a data/ path as a series of JSONs beginning "data_"; User-level data is stored
 as a series of JSONs beginning "users_". If a filename is supplied, this function will save the
-result as a RDS file, otherwise, it will return the results as a dataframe.
+result as a RDS file, otherwise it will return the results as a dataframe.
 }
 \examples{
 \dontrun{
 bearer_token <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-get_video_tweets("#BLM", "2020-01-01T00:00:00Z", "2020-01-05T00:00:00Z", bearer_token, data_path = "data/")
+get_video_tweets("#BLM", "2020-01-01T00:00:00Z", "2020-01-05T00:00:00Z", 
+                  bearer_token, data_path = "data/")
 }
 }

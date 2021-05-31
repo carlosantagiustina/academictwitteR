@@ -5,3 +5,13 @@ data\*.*
 includes\*.*
 .Rbuildignore
 ^LICENSE\.md$
+.DS_Store
+.github
+twittterv2r.Rproj
+paper.bib
+paper.md
+demo.R
+cran-comments.md
+^CRAN-RELEASE$
+^CODE_OF_CONDUCT\.md$
+^\.github$
